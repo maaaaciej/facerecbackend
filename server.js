@@ -16,7 +16,7 @@ const db = knex({
 db.select("*")
   .from("users")
   .then((data) => {
-    console.log(data);
+    console.log(data)
   });
 
 const app = express();
@@ -48,13 +48,13 @@ app.post("/signin", (req, res) => {
     .from("login")
     .where("email", "=", req.body.email)
     .then((data) => {
-      console.log(data)
+
       const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
       if (isValid){
        return db.select('*').from('users')
         .where("email", "=", req.body.email)
         .then(user=>{
-          console.log(user[0])
+
           res.json(user[0])
 
         })
@@ -100,9 +100,8 @@ app.put("/image", (req, res) => {
     .then((entries) => {
       res.json(entries[0]);
     })
-    .catch((err) => res.status(400).json("unable to fetch entries"));
+    .catch(() => res.status(400).json("unable to fetch entries"));
 });
 
-app.listen(3000, () => {
-  console.log("twerk");
+app.listen(process.env.PORT || 3000, () => {
 });
